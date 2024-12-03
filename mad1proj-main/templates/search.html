@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Search Service Request{% endblock %}
+
+{% block content %}
+<h2>Search Service Request</h2>
+<form method="POST" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="city" class="form-control" placeholder="Enter City Name" required>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+{% if service_request %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Request #{{ service_request.id }}</h5>
+        <p class="card-text">
+            <strong>Customer:</strong> {{ service_request.customer.full_name }}<br>
+            <strong>City:</strong> {{ service_request.customer.city }}<br>
+            <strong>Service Package:</strong> {{ service_request.service_package.name }}<br>
+            <strong>Status:</strong> {{ service_request.status }}<br>
+            <strong>Date Requested:</strong> {{ service_request.date_of_request.strftime('%Y-%m-%d') }}
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Professional Summary{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
+    <!-- Header Section -->
+    <div class="container mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('professional_view.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Professional Summary</li>
+            </ol>
+        </nav>
+        <h2 class="display-6 mb-4">Service Overview</h2>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="container">
+        <div class="row g-4">
+            <!-- Assigned Requests Card -->
+            <div class="col-md-4">
+                <div class="card stat-card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon bg-primary-subtle me-3">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Assigned Requests</h6>
+                        </div>
+                        <h2 class="card-title mb-0">{{ assigned_count }}</h2>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-primary" style="width: 100%"></div>
+                        </div>
+                        <p class="text-muted small mt-3">
+                            Currently assigned service requests
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Requests Card -->
+            <div class="col-md-4">
+                <div class="card stat-card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon bg-success-subtle me-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Completed Requests</h6>
+                        </div>
+                        <h2 class="card-title mb-0">{{ completed_count }}</h2>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                        <p class="text-muted small mt-3">
+                            Successfully completed services
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejected Requests Card -->
+            <div class="col-md-4">
+                <div class="card stat-card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon bg-danger-subtle me-3">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Rejected Requests</h6>
+                        </div>
+                        <h2 class="card-title mb-0">{{ rejected_count }}</h2>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-danger" style="width: 100%"></div>
+                        </div>
+                        <p class="text-muted small mt-3">
+                            Declined service requests
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-5">
+            <a href="{{ url_for('professional_view.dashboard') }}" class="btn btn-outline-secondary px-4 rounded-pill">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block styles %}
+<style>
+    .stat-card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .stat-icon i {
+        font-size: 1.5rem;
+    }
+
+    .bg-primary-subtle {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+
+    .bg-success-subtle {
+        background-color: rgba(25, 135, 84, 0.1);
+    }
+
+    .bg-danger-subtle {
+        background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    .stat-icon i {
+        color: var(--bs-primary);
+    }
+
+    .bg-success-subtle i {
+        color: var(--bs-success);
+    }
+
+    .bg-danger-subtle i {
+        color: var(--bs-danger);
+    }
+
+    .breadcrumb {
+        background: transparent;
+    }
+
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #0d6efd;
+    }
+
+    .card-title {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .progress {
+        background-color: #f8f9fa;
+    }
+
+    .small {
+        font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 20px;
+        }
+        
+        .col-md-4 {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+{% endblock %}

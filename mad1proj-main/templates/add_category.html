@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Service Category{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Add New Service Category</h5>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('admin.add_category') }}" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Category Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

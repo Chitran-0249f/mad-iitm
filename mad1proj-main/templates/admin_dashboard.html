@@ -1,0 +1,186 @@
+<!-- templates/admin_dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Service Management Section -->
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Service Management</h5>
+            <a href="{{ url_for('admin.add_service_page') }}" class="btn btn-primary">
+                Add New Service
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Price</th>
+                            <th>Time Required</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in service_packages %}
+                        <tr>
+                            <td>{{ service.name }}</td>
+                            <td>${{ service.price }}</td>
+                            <td>{{ service.time }} hours</td>
+                            <td>{{ service.description }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm me-2" href="{{ url_for('admin.edit_service', id=service.id) }}" role="button">Edit</a>
+                                <form class="d-inline" action="{{ url_for('admin.delete_service', id=service.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Add Service Modal -->
+     
+     
+    <div class="modal fade" id="addServiceModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addServiceForm" action="{{ url_for('admin.add_service') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Service Name</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Time Required (hours)</label>
+                            <input type="number" class="form-control" name="time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="service_category_id" class="form-label">Service Category</label>
+                            <select class="form-select" name="service_category_id" required>
+                                {% for category in service_categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Service</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Replace the Add Service Category Button -->
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ url_for('admin.add_category_page') }}" class="btn btn-secondary">
+            Add New Service Category
+        </a>
+    </div>
+
+    <!-- Professional Management Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Professional Management</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Experience</th>
+                            <th>Service Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for professional in professionals %}
+                        <tr>
+                            <td>{{ professional.id }}</td>
+                            <td>{{ professional.full_name }}</td>
+                            <td>{{ professional.experience }} years</td>
+                            <td>{{ professional.service_type }}</td>
+                            <td>{{ professional.status }}</td>
+                            <td>
+                                {% if professional.document %}
+                                <a href="{{ url_for('admin.view_document', professional_id=professional.id) }}" class="btn btn-sm btn-primary"
+                                    target="_blank">View Document</a>
+                                {% else %}
+                                <span class="text-muted">No Document</span>
+                                {% endif %}
+                                {% if professional.status == 'pending' %}
+                                <form action="{{ url_for('admin.approve_professional', id=professional.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                </form>
+                                <form action="{{ url_for('admin.reject_professional', id=professional.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                                </form>
+                                {% endif %}
+                                <form action="{{ url_for('admin.delete_professional', id=professional.id)}}" method="POST" style="display: inline;">
+                                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                </form>
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Requests Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Service Requests</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Professional</th>
+                            <th>Date Requested</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in service_requests %}
+                        <tr>
+                            <td>{{ request.id }}</td>
+                            <td>{{ request.customer.full_name }}</td>
+                            <td>{{ request.professional.full_name if request.professional else 'Unassigned' }}</td>
+                            <td>{{ request.date_of_request.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ request.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

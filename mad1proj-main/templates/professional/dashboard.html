@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Professional Dashboard{% endblock %}
+
+{% block content %}
+<h2>Service Requests</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>Customer City</th>
+                <th>Customer Phone</th>
+                <th>Service Package</th>
+                <th>Status</th>
+                <th>Date Requested</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in service_requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.customer.city }}</td>
+                <td>{{ request.customer.phone_number }}</td>
+                <td>{{ request.service_package.name }}</td>
+                <td>{{ request.status }}</td>
+                <td>{{ request.date_of_request.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if not request.professional_id %}
+                    <a href="{{ url_for('service_requests.accept_request', request_id=request.id) }}"
+                        class="btn btn-success btn-sm">Accept</a>
+                    <a href="{{ url_for('service_requests.reject_request', request_id=request.id) }}"
+                        class="btn btn-danger btn-sm">Reject</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+{% endblock %}

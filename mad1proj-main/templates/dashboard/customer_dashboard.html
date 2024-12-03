@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <!-- Search Section -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search for services...">
+    </div>
+
+    <!-- Service Categories -->
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <a href="{{ url_for('customer_view.view_category_services', category_id=category.id) }}" 
+                       class="btn btn-primary">
+                        View Services
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Service Requests Table -->
+    <div class="mt-4">
+        <h3>Your Service Requests</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Date Requested</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in service_requests %}
+                <tr>
+                    <td>{{ request.service_package.name }}</td>
+                    <td>{{ request.date_of_request.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>
+                        {% if request.status == 'requested' %}
+                        <form action="{{ url_for('customer_services.cancel_request', request_id=request.id) }}"
+                            method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                        {% endif %}
+                        {% if request.status == 'assigned' %}
+                        <a href="{{ url_for('customer_services.complete_request', request_id=request.id) }}"
+                            class="btn btn-success btn-sm">Mark Complete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        let filter = this.value.toLowerCase();
+        let cards = document.getElementsByClassName('card');
+
+        for (let card of cards) {
+            let title = card.getElementsByClassName('card-title')[0];
+            if (title) {
+                let txtValue = title.textContent || title.innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

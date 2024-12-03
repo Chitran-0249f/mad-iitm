@@ -1,0 +1,41 @@
+/* Style for "HomeServices" */
+#home-services {
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#home-services:hover {
+    color: #f5da61;
+    transform: scale(1.2);
+}
+
+/* Hover to show dropdown menu */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block; /* Show the dropdown menu on hover */
+}
+
+/* Style for the dropdown menu */
+.dropdown-menu {
+    display: none; /* Hide the dropdown by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #343a40;
+    border-radius: 0.25rem;
+}
+
+/* Style for dropdown items */
+.dropdown-item {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Hover effect for dropdown items */
+.dropdown-item:hover {
+    background-color: #495057;
+    color: white;
+}

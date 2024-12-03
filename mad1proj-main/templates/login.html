@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid py-5" style="background-color: #f8f9fa; min-height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-body p-5">
+                        <!-- Header -->
+                        <div class="text-center mb-4">
+                            <div class="stat-icon bg-primary-subtle mb-3 mx-auto">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h2 class="display-6 mb-1">Welcome Back</h2>
+                            <p class="text-muted">Please login to your account</p>
+                        </div>
+
+                        <!-- Login Form -->
+                        <form method="POST" action="{{ url_for('auth.login') }}">
+                            <!-- Email Input -->
+                            <div class="mb-4">
+                                <label for="email" class="form-label text-muted">Email address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-envelope text-muted"></i>
+                                    </span>
+                                    <input type="email" 
+                                           class="form-control border-start-0" 
+                                           id="email" 
+                                           name="email" 
+                                           placeholder="Enter your email"
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label text-muted">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-lock text-muted"></i>
+                                    </span>
+                                    <input type="password" 
+                                           class="form-control border-start-0" 
+                                           id="password" 
+                                           name="password" 
+                                           placeholder="Enter your password"
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    Login
+                                </button>
+                            </div>
+
+                            <!-- Register Link -->
+                            <div class="text-center">
+                                <p class="text-muted mb-0">
+                                    Don't have an account? 
+                                    <a href="{{ url_for('auth.register') }}" class="text-primary text-decoration-none">
+                                        Register now
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .stat-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .stat-icon i {
+        font-size: 1.75rem;
+        color: var(--bs-primary);
+    }
+
+    .bg-primary-subtle {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+
+    .input-group-text {
+        border-right: none;
+    }
+
+    .form-control {
+        border-left: none;
+    }
+
+    .input-group-text,
+    .form-control {
+        padding: 0.75rem 1.25rem;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #dee2e6;
+    }
+
+    .input-group:focus-within {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        border-radius: 0.375rem;
+    }
+
+    .input-group:focus-within .input-group-text,
+    .input-group:focus-within .form-control {
+        border-color: #86b7fe;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.25rem;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 2rem !important;
+        }
+    }
+</style>
+{% endblock %}
